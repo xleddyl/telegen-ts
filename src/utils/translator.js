@@ -149,7 +149,7 @@ const fs = require('fs')
                   } else {
                      type = prop.type.charAt(0) === prop.type.charAt(0).toUpperCase() ? `types.${prop.type}` : prop.type
                   }
-                  file.write(`/**${prop.description}*/\n`)
+                  file.write(`/** ${prop.description} */\n`)
                   file.write(`${prop.name}: ${type},\n`)
                })
                args = args
@@ -158,7 +158,7 @@ const fs = require('fs')
                   .concat('},')
             }
             if (optionals.length > 0) {
-               file.write(`/**Extra options that could be provided*/\n`)
+               file.write(`/** Extra options that could be provided */\n`)
                file.write(`extra? :{\n`)
                optionals.forEach((prop) => {
                   let type = ''
@@ -170,7 +170,7 @@ const fs = require('fs')
                   } else {
                      type = prop.type.charAt(0) === prop.type.charAt(0).toUpperCase() ? `types.${prop.type}` : prop.type
                   }
-                  file.write(`/**${prop.description}*/\n`)
+                  file.write(`/** ${prop.description} */\n`)
                   file.write(`${prop.name}?: ${type},\n`)
                })
                args = args.concat('extra')
@@ -195,7 +195,7 @@ const fs = require('fs')
          file.write(`export interface ${type.name} {\n`)
          if (type.properties) {
             type.properties.forEach((prop) => {
-               file.write(`/**${prop.description}*/\n`)
+               file.write(`/** ${prop.description} */\n`)
                file.write(`${prop.name}${prop.optional ? '?' : ''}: ${prop.type},\n`)
             })
          }

@@ -1,6 +1,5 @@
 import { Methods } from './telegram/autogen-Methods'
-
-const axios = require('axios')
+import axios from 'axios'
 
 export class TelegramBotTS extends Methods {
    public url: string = 'https://api.telegram.org/bot<token>/<method>'
@@ -15,7 +14,7 @@ export class TelegramBotTS extends Methods {
       const method = body === undefined ? 'get' : 'post'
       try {
          const res = await axios({
-            method: method,
+            method,
             url: this.url.replace('<token>', this.token).replace('<method>', methodName),
             headers: {
                'Content-Type': 'multipart/form-data',

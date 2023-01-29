@@ -1,6 +1,6 @@
 {
-  "name": "telegrambot-ts",
-  "version": "1.0.0",
+  "name": "@xleddyl/telegrambot-ts",
+  "version": "1.0.1",
   "description": " A TypeScript wrapper for Telegram Bot API",
   "keywords": [
     "telegram",
