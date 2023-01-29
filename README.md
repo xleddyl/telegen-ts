@@ -2,6 +2,8 @@
 
 A simple and effective wrapper that solely provides an implementation of the official [Telegram Bot API](https://core.telegram.org/bots/api). The webhooks and polling mechanism are not included, as this module is meant for custom logic implementation.
 
+- Current wrapper version: [**Bot API 6.4**](https://core.telegram.org/bots/api#december-30-2022)
+
 ## 📚 Docs
 
 This module doesn't need much documentation as all the infos can be retrieved from the official telegram's docs: <https://core.telegram.org/bots/api>
