@@ -1,0 +1,12 @@
+{
+  "rules":{
+    "variable-name": {
+      "options": [
+        "allow-snake-case"
+      ]
+    },
+    "jsdoc-format": false,
+    "no-empty-interface": false
+  },
+  "extends": ["tslint:recommended", "tslint-config-prettier"]
+}
