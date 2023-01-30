@@ -23,7 +23,7 @@ export class TelegenTS extends Methods {
          })
          return res.data.result
       } catch (e: any) {
-         throw {method: methodName, error: e }
+         throw { method: methodName, error: e }
       }
    }
 }
