@@ -26,7 +26,7 @@ const bot = new TelegenTS(TOKEN)
 - `TelegenTS` is a class from which all the [Available methods](https://core.telegram.org/bots/api#available-methods) can be called (alongside with the ones explained [here](https://core.telegram.org/bots/api#getting-updates))
 - `Types` contains all the [Available types](https://core.telegram.org/bots/api#available-types) used as return values/function parameters (alongside with the ones explained [here](https://core.telegram.org/bots/api#getting-updates))
   - suitable for type casting in TypeScript
-  - note: for return types manual inference is required 😢 (read the docs to determine the return of methods)
+  - note: for return types manual inference is required 😢 (read the docs to determine the return type of methods)
 
 ## 🤖 Example
 
