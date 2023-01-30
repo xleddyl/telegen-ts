@@ -27,12 +27,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xleddyl/telegrambot-ts.git"
+    "url": "git+https://github.com/xleddyl/telegen-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/xleddyl/telegrambot-ts/issues"
+    "url": "https://github.com/xleddyl/telegen-ts/issues"
   },
-  "homepage": "https://github.com/xleddyl/telegrambot-ts#readme",
+  "homepage": "https://github.com/xleddyl/telegen-ts#readme",
   "dependencies": {
     "axios": "^1.2.5"
   },
