@@ -23,7 +23,7 @@ export class TelegenTS extends Methods {
          })
          return res.data.result
       } catch (e: any) {
-         throw { ...e.response.data, method: e.config.url.split('/').pop() }
+         throw {method: methodName, error: e }
       }
    }
 }
