@@ -77,7 +77,7 @@ export abstract class Methods {
     */
    async getWebhookInfo(): Promise<any> {
       try {
-         return await this.makeRequest('getWebhookInfo')
+         return await this.makeRequest('getWebhookInfo', undefined, undefined)
       } catch (e: any) {
          throw e
       }
@@ -88,7 +88,7 @@ export abstract class Methods {
     */
    async getMe(): Promise<any> {
       try {
-         return await this.makeRequest('getMe')
+         return await this.makeRequest('getMe', undefined, undefined)
       } catch (e: any) {
          throw e
       }
@@ -99,7 +99,7 @@ export abstract class Methods {
     */
    async logOut(): Promise<any> {
       try {
-         return await this.makeRequest('logOut')
+         return await this.makeRequest('logOut', undefined, undefined)
       } catch (e: any) {
          throw e
       }
@@ -110,7 +110,7 @@ export abstract class Methods {
     */
    async close(): Promise<any> {
       try {
-         return await this.makeRequest('close')
+         return await this.makeRequest('close', undefined, undefined)
       } catch (e: any) {
          throw e
       }
@@ -976,6 +976,8 @@ export abstract class Methods {
       chat_id: number | string,
       /** Extra options that could be provided */
       extra?: {
+         /** Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission. */
+         use_independent_chat_permissions?: boolean
          /** Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever */
          until_date?: number
       },
@@ -1088,9 +1090,14 @@ export abstract class Methods {
       permissions: types.ChatPermissions,
       /** Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername) */
       chat_id: number | string,
+      /** Extra options that could be provided */
+      extra?: {
+         /** Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission. */
+         use_independent_chat_permissions?: boolean
+      },
    ): Promise<any> {
       try {
-         return await this.makeRequest('setChatPermissions', { permissions, chat_id })
+         return await this.makeRequest('setChatPermissions', { permissions, chat_id }, extra)
       } catch (e: any) {
          throw e
       }
@@ -1386,7 +1393,7 @@ export abstract class Methods {
    }
 
    /**
-    * Use this method to get information about a member of a chat. The method is guaranteed to work for other users, only if the bot is an administrator in the chat. Returns a ChatMember object on success.
+    * Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
     */
    async getChatMember(
       /** Unique identifier of the target user */
@@ -1436,7 +1443,7 @@ export abstract class Methods {
     */
    async getForumTopicIconStickers(): Promise<any> {
       try {
-         return await this.makeRequest('getForumTopicIconStickers')
+         return await this.makeRequest('getForumTopicIconStickers', undefined, undefined)
       } catch (e: any) {
          throw e
       }

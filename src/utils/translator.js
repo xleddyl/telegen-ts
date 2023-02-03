@@ -133,9 +133,9 @@ const fs = require('fs')
          file.write(` * ${method.description}\n`)
          file.write(` */\n`)
          file.write(`async ${method.name} (\n`)
-         let args = ''
+         let args = 'undefined, undefined'
          if (method.properties) {
-            args = args.concat(',')
+            args = ''
             const requireds = method.properties.filter((p) => p.optional === false)
             const optionals = method.properties.filter((p) => p.optional === true)
             if (requireds.length > 0) {
@@ -152,10 +152,7 @@ const fs = require('fs')
                   file.write(`/** ${prop.description} */\n`)
                   file.write(`${prop.name}: ${type},\n`)
                })
-               args = args
-                  .concat('{')
-                  .concat(requireds.map((prop) => prop.name).join(',\n'))
-                  .concat('},')
+               args = '{'.concat(requireds.map((prop) => prop.name).join(',\n')).concat('},')
             }
             if (optionals.length > 0) {
                file.write(`/** Extra options that could be provided */\n`)
@@ -178,7 +175,7 @@ const fs = require('fs')
             }
          }
          file.write(`): Promise<${method.return}>{\n`)
-         file.write(`try{ return await this.makeRequest('${method.name}' ${args}) } catch(e: any) { throw e }\n`)
+         file.write(`try{ return await this.makeRequest('${method.name}', ${args}) } catch(e: any) { throw e }\n`)
          file.write(`}\n\n`)
       })
       file.write(`}`)
@@ -187,7 +184,6 @@ const fs = require('fs')
 
    function translateTypes(types) {
       const file = fs.createWriteStream(path.join(__dirname, '../core/telegram', 'autogen-types.ts'), { flags: 'w' })
-      file.write(`// placeholder'\n\n`)
       types.forEach((type) => {
          file.write(`/**\n`)
          file.write(` * ${type.description}\n`)

@@ -7,6 +7,7 @@ export class TelegenTS extends Methods {
 
    constructor(token: string) {
       super()
+      if (token === '' || token === undefined || typeof token !== 'string') throw new Error('invalid bot token')
       this.token = token
    }
 
@@ -23,7 +24,11 @@ export class TelegenTS extends Methods {
          })
          return res.data.result
       } catch (e: any) {
-         throw { method: methodName, error: e }
+         try {
+            throw { method: methodName, error: e.response.data }
+         } catch (e: any) {
+            throw { method: methodName, error: e }
+         }
       }
    }
 }
