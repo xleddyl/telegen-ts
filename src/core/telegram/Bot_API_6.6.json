@@ -1030,7 +1030,7 @@
             "description": "Identifier for this file, which can be used to download or reuse the file"
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "PhotoSize",
             "optional": true,
             "description": "Optional. Animation thumbnail as defined by sender"
@@ -1109,7 +1109,7 @@
             "description": "Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value."
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "PhotoSize",
             "optional": true,
             "description": "Optional. Thumbnail of the album cover to which the music file belongs"
@@ -1134,7 +1134,7 @@
             "description": "Identifier for this file, which can be used to download or reuse the file"
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "PhotoSize",
             "optional": true,
             "description": "Optional. Document thumbnail as defined by sender"
@@ -1184,7 +1184,7 @@
             "optional": false,
             "description": "Identifier for this file, which can be used to download or reuse the file"
          },
-         { "name": "thumb", "type": "PhotoSize", "optional": true, "description": "Optional. Video thumbnail" },
+         { "name": "thumbnail", "type": "PhotoSize", "optional": true, "description": "Optional. Video thumbnail" },
          {
             "name": "file_name",
             "type": "string",
@@ -1234,7 +1234,7 @@
             "optional": false,
             "description": "Identifier for this file, which can be used to download or reuse the file"
          },
-         { "name": "thumb", "type": "PhotoSize", "optional": true, "description": "Optional. Video thumbnail" },
+         { "name": "thumbnail", "type": "PhotoSize", "optional": true, "description": "Optional. Video thumbnail" },
          { "name": "file_size", "type": "number", "optional": true, "description": "Optional. File size in bytes" }
       ]
    },
@@ -1824,7 +1824,7 @@
             "name": "request_id",
             "type": "number",
             "optional": false,
-            "description": "Signed 32-bit identifier of the request"
+            "description": "Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message"
          },
          {
             "name": "user_is_bot",
@@ -1855,7 +1855,7 @@
             "name": "request_id",
             "type": "number",
             "optional": false,
-            "description": "Signed 32-bit identifier of the request"
+            "description": "Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message"
          },
          {
             "name": "chat_is_forum",
@@ -1879,7 +1879,7 @@
             "name": "user_administrator_rights",
             "type": "ChatAdministratorRights",
             "optional": true,
-            "description": "Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. If not specified, no additional restrictions are applied."
+            "description": "Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied."
          },
          {
             "name": "bot_administrator_rights",
@@ -2846,6 +2846,27 @@
       ]
    },
    {
+      "name": "BotDescription",
+      "category": "type",
+      "description": "This object represents the bot's description.",
+      "properties": [
+         { "name": "description", "type": "string", "optional": false, "description": "The bot's description" }
+      ]
+   },
+   {
+      "name": "BotShortDescription",
+      "category": "type",
+      "description": "This object represents the bot's short description.",
+      "properties": [
+         {
+            "name": "short_description",
+            "type": "string",
+            "optional": false,
+            "description": "The bot's short description"
+         }
+      ]
+   },
+   {
       "name": "MenuButton",
       "category": "type",
       "description": "This object describes the bot's menu button in a private chat. It should be one ofIf a menu button other than MenuButtonDefault is set for a private chat, then it is applied in the chat. Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands."
@@ -2956,7 +2977,7 @@
          },
          { "name": "type", "type": "string", "optional": false, "description": "Type of the result, must be video" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3019,7 +3040,7 @@
             "description": "Type of the result, must be animation"
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3071,7 +3092,7 @@
          },
          { "name": "type", "type": "string", "optional": false, "description": "Type of the result, must be audio" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3117,7 +3138,7 @@
          },
          { "name": "type", "type": "string", "optional": false, "description": "Type of the result, must be document" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3495,7 +3516,7 @@
          { "name": "performer", "type": "string", "optional": true, "description": "Performer" },
          { "name": "title", "type": "string", "optional": true, "description": "Track name" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3557,7 +3578,7 @@
             "description": "Unique identifier for the target message thread (topic) of the forum; for forum supergroups only"
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3646,7 +3667,7 @@
          { "name": "width", "type": "number", "optional": true, "description": "Video width" },
          { "name": "height", "type": "number", "optional": true, "description": "Video height" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3746,7 +3767,7 @@
          { "name": "width", "type": "number", "optional": true, "description": "Animation width" },
          { "name": "height", "type": "number", "optional": true, "description": "Animation height" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -3919,7 +3940,7 @@
             "description": "Video width and height, i.e. diameter of the video message"
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
             "description": "Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »"
@@ -4079,90 +4100,6 @@
             "type": "InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply",
             "optional": true,
             "description": "Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user."
-         }
-      ]
-   },
-   {
-      "name": "editMessageLiveLocation",
-      "category": "method",
-      "description": "Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.",
-      "return": "any",
-      "properties": [
-         { "name": "longitude", "type": "number", "optional": false, "description": "Longitude of new location" },
-         { "name": "latitude", "type": "number", "optional": false, "description": "Latitude of new location" },
-         {
-            "name": "chat_id",
-            "type": "number|string",
-            "optional": true,
-            "description": "Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)"
-         },
-         {
-            "name": "message_id",
-            "type": "number",
-            "optional": true,
-            "description": "Required if inline_message_id is not specified. Identifier of the message to edit"
-         },
-         {
-            "name": "inline_message_id",
-            "type": "string",
-            "optional": true,
-            "description": "Required if chat_id and message_id are not specified. Identifier of the inline message"
-         },
-         {
-            "name": "horizontal_accuracy",
-            "type": "number",
-            "optional": true,
-            "description": "The radius of uncertainty for the location, measured in meters; 0-1500"
-         },
-         {
-            "name": "heading",
-            "type": "number",
-            "optional": true,
-            "description": "Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified."
-         },
-         {
-            "name": "proximity_alert_radius",
-            "type": "number",
-            "optional": true,
-            "description": "The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified."
-         },
-         {
-            "name": "reply_markup",
-            "type": "InlineKeyboardMarkup",
-            "optional": true,
-            "description": "A JSON-serialized object for a new inline keyboard."
-         }
-      ]
-   },
-   {
-      "name": "stopMessageLiveLocation",
-      "category": "method",
-      "description": "Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.",
-      "return": "any",
-      "properties": [
-         {
-            "name": "chat_id",
-            "type": "number|string",
-            "optional": true,
-            "description": "Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)"
-         },
-         {
-            "name": "message_id",
-            "type": "number",
-            "optional": true,
-            "description": "Required if inline_message_id is not specified. Identifier of the message with live location to stop"
-         },
-         {
-            "name": "inline_message_id",
-            "type": "string",
-            "optional": true,
-            "description": "Required if chat_id and message_id are not specified. Identifier of the inline message"
-         },
-         {
-            "name": "reply_markup",
-            "type": "InlineKeyboardMarkup",
-            "optional": true,
-            "description": "A JSON-serialized object for a new inline keyboard."
          }
       ]
    },
@@ -5513,6 +5450,74 @@
       ]
    },
    {
+      "name": "setMyDescription",
+      "category": "method",
+      "description": "Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.",
+      "return": "any",
+      "properties": [
+         {
+            "name": "description",
+            "type": "string",
+            "optional": true,
+            "description": "New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language."
+         },
+         {
+            "name": "language_code",
+            "type": "string",
+            "optional": true,
+            "description": "A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description."
+         }
+      ]
+   },
+   {
+      "name": "getMyDescription",
+      "category": "method",
+      "description": "Use this method to get the current bot description for the given user language. Returns BotDescription on success.",
+      "return": "any",
+      "properties": [
+         {
+            "name": "language_code",
+            "type": "string",
+            "optional": true,
+            "description": "A two-letter ISO 639-1 language code or an empty string"
+         }
+      ]
+   },
+   {
+      "name": "setMyShortDescription",
+      "category": "method",
+      "description": "Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.",
+      "return": "any",
+      "properties": [
+         {
+            "name": "short_description",
+            "type": "string",
+            "optional": true,
+            "description": "New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language."
+         },
+         {
+            "name": "language_code",
+            "type": "string",
+            "optional": true,
+            "description": "A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description."
+         }
+      ]
+   },
+   {
+      "name": "getMyShortDescription",
+      "category": "method",
+      "description": "Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.",
+      "return": "any",
+      "properties": [
+         {
+            "name": "language_code",
+            "type": "string",
+            "optional": true,
+            "description": "A two-letter ISO 639-1 language code or an empty string"
+         }
+      ]
+   },
+   {
       "name": "setChatMenuButton",
       "category": "method",
       "description": "Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.",
@@ -5549,7 +5554,7 @@
    {
       "name": "setMyDefaultAdministratorRights",
       "category": "method",
-      "description": "Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success.",
+      "description": "Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.",
       "return": "any",
       "properties": [
          {
@@ -5725,6 +5730,90 @@
       ]
    },
    {
+      "name": "editMessageLiveLocation",
+      "category": "method",
+      "description": "Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.",
+      "return": "any",
+      "properties": [
+         { "name": "longitude", "type": "number", "optional": false, "description": "Longitude of new location" },
+         { "name": "latitude", "type": "number", "optional": false, "description": "Latitude of new location" },
+         {
+            "name": "chat_id",
+            "type": "number|string",
+            "optional": true,
+            "description": "Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)"
+         },
+         {
+            "name": "message_id",
+            "type": "number",
+            "optional": true,
+            "description": "Required if inline_message_id is not specified. Identifier of the message to edit"
+         },
+         {
+            "name": "inline_message_id",
+            "type": "string",
+            "optional": true,
+            "description": "Required if chat_id and message_id are not specified. Identifier of the inline message"
+         },
+         {
+            "name": "horizontal_accuracy",
+            "type": "number",
+            "optional": true,
+            "description": "The radius of uncertainty for the location, measured in meters; 0-1500"
+         },
+         {
+            "name": "heading",
+            "type": "number",
+            "optional": true,
+            "description": "Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified."
+         },
+         {
+            "name": "proximity_alert_radius",
+            "type": "number",
+            "optional": true,
+            "description": "The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified."
+         },
+         {
+            "name": "reply_markup",
+            "type": "InlineKeyboardMarkup",
+            "optional": true,
+            "description": "A JSON-serialized object for a new inline keyboard."
+         }
+      ]
+   },
+   {
+      "name": "stopMessageLiveLocation",
+      "category": "method",
+      "description": "Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.",
+      "return": "any",
+      "properties": [
+         {
+            "name": "chat_id",
+            "type": "number|string",
+            "optional": true,
+            "description": "Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)"
+         },
+         {
+            "name": "message_id",
+            "type": "number",
+            "optional": true,
+            "description": "Required if inline_message_id is not specified. Identifier of the message with live location to stop"
+         },
+         {
+            "name": "inline_message_id",
+            "type": "string",
+            "optional": true,
+            "description": "Required if chat_id and message_id are not specified. Identifier of the inline message"
+         },
+         {
+            "name": "reply_markup",
+            "type": "InlineKeyboardMarkup",
+            "optional": true,
+            "description": "A JSON-serialized object for a new inline keyboard."
+         }
+      ]
+   },
+   {
       "name": "editMessageReplyMarkup",
       "category": "method",
       "description": "Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.",
@@ -5840,7 +5929,7 @@
             "description": "Identifier for this file, which can be used to download or reuse the file"
          },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "PhotoSize",
             "optional": true,
             "description": "Optional. Sticker thumbnail in the .WEBP or .JPG format"
@@ -5875,6 +5964,12 @@
             "optional": true,
             "description": "Optional. For custom emoji stickers, unique identifier of the custom emoji"
          },
+         {
+            "name": "needs_repainting",
+            "type": "boolean",
+            "optional": true,
+            "description": "Optional. True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places"
+         },
          { "name": "file_size", "type": "number", "optional": true, "description": "Optional. File size in bytes" }
       ]
    },
@@ -5905,7 +6000,7 @@
          { "name": "title", "type": "string", "optional": false, "description": "Sticker set title" },
          { "name": "name", "type": "string", "optional": false, "description": "Sticker set name" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "PhotoSize",
             "optional": true,
             "description": "Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format"
@@ -5944,6 +6039,37 @@
       ]
    },
    {
+      "name": "InputSticker",
+      "category": "type",
+      "description": "This object describes a sticker to be added to a sticker set.",
+      "properties": [
+         {
+            "name": "emoji_list",
+            "type": "string[]",
+            "optional": false,
+            "description": "List of 1-20 emoji associated with the sticker"
+         },
+         {
+            "name": "sticker",
+            "type": "InputFile|string",
+            "optional": false,
+            "description": "The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files »"
+         },
+         {
+            "name": "mask_position",
+            "type": "MaskPosition",
+            "optional": true,
+            "description": "Optional. Position where the mask should be placed on faces. For “mask” stickers only."
+         },
+         {
+            "name": "keywords",
+            "type": "string[]",
+            "optional": true,
+            "description": "Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only."
+         }
+      ]
+   },
+   {
       "name": "sendSticker",
       "category": "method",
       "description": "Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.",
@@ -5953,7 +6079,7 @@
             "name": "sticker",
             "type": "InputFile|string",
             "optional": false,
-            "description": "Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »"
+            "description": "Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP or .TGS sticker using multipart/form-data. More information on Sending Files ». Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL."
          },
          {
             "name": "chat_id",
@@ -5966,6 +6092,12 @@
             "type": "number",
             "optional": true,
             "description": "Unique identifier for the target message thread (topic) of the forum; for forum supergroups only"
+         },
+         {
+            "name": "emoji",
+            "type": "string",
+            "optional": true,
+            "description": "Emoji associated with the sticker; only for just uploaded stickers"
          },
          {
             "name": "disable_notification",
@@ -6023,14 +6155,20 @@
    {
       "name": "uploadStickerFile",
       "category": "method",
-      "description": "Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.",
+      "description": "Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.",
       "return": "any",
       "properties": [
          {
-            "name": "png_sticker",
+            "name": "sticker_format",
+            "type": "string",
+            "optional": false,
+            "description": "Format of the sticker, must be one of “static”, “animated”, “video”"
+         },
+         {
+            "name": "sticker",
             "type": "InputFile",
             "optional": false,
-            "description": "PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More information on Sending Files »"
+            "description": "A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files »"
          },
          {
             "name": "user_id",
@@ -6043,14 +6181,20 @@
    {
       "name": "createNewStickerSet",
       "category": "method",
-      "description": "Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.",
+      "description": "Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.",
       "return": "any",
       "properties": [
          {
-            "name": "emojis",
+            "name": "sticker_format",
             "type": "string",
             "optional": false,
-            "description": "One or more emoji corresponding to the sticker"
+            "description": "Format of stickers in the set, must be one of “static”, “animated”, “video”"
+         },
+         {
+            "name": "stickers",
+            "type": "InputSticker[]",
+            "optional": false,
+            "description": "A JSON-serialized list of 1-50 initial stickers to be added to the sticker set"
          },
          { "name": "title", "type": "string", "optional": false, "description": "Sticker set title, 1-64 characters" },
          {
@@ -6066,48 +6210,30 @@
             "description": "User identifier of created sticker set owner"
          },
          {
-            "name": "png_sticker",
-            "type": "InputFile|string",
-            "optional": true,
-            "description": "PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »"
-         },
-         {
-            "name": "tgs_sticker",
-            "type": "InputFile",
-            "optional": true,
-            "description": "TGS animation with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements"
-         },
-         {
-            "name": "webm_sticker",
-            "type": "InputFile",
-            "optional": true,
-            "description": "WEBM video with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#video-sticker-requirements for technical requirements"
-         },
-         {
             "name": "sticker_type",
             "type": "string",
             "optional": true,
-            "description": "Type of stickers in the set, pass “regular” or “mask”. Custom emoji sticker sets can't be created via the Bot API at the moment. By default, a regular sticker set is created."
+            "description": "Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created."
          },
          {
-            "name": "mask_position",
-            "type": "MaskPosition",
+            "name": "needs_repainting",
+            "type": "boolean",
             "optional": true,
-            "description": "A JSON-serialized object for position where the mask should be placed on faces"
+            "description": "Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only"
          }
       ]
    },
    {
       "name": "addStickerToSet",
       "category": "method",
-      "description": "Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.",
+      "description": "Use this method to add a new sticker to a set created by the bot. The format of the added sticker must match the format of the other stickers in the set. Emoji sticker sets can have up to 200 stickers. Animated and video sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.",
       "return": "any",
       "properties": [
          {
-            "name": "emojis",
-            "type": "string",
+            "name": "sticker",
+            "type": "InputSticker",
             "optional": false,
-            "description": "One or more emoji corresponding to the sticker"
+            "description": "A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed."
          },
          { "name": "name", "type": "string", "optional": false, "description": "Sticker set name" },
          {
@@ -6115,30 +6241,6 @@
             "type": "number",
             "optional": false,
             "description": "User identifier of sticker set owner"
-         },
-         {
-            "name": "png_sticker",
-            "type": "InputFile|string",
-            "optional": true,
-            "description": "PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »"
-         },
-         {
-            "name": "tgs_sticker",
-            "type": "InputFile",
-            "optional": true,
-            "description": "TGS animation with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements"
-         },
-         {
-            "name": "webm_sticker",
-            "type": "InputFile",
-            "optional": true,
-            "description": "WEBM video with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#video-sticker-requirements for technical requirements"
-         },
-         {
-            "name": "mask_position",
-            "type": "MaskPosition",
-            "optional": true,
-            "description": "A JSON-serialized object for position where the mask should be placed on faces"
          }
       ]
    },
@@ -6167,9 +6269,64 @@
       ]
    },
    {
-      "name": "setStickerSetThumb",
+      "name": "setStickerEmojiList",
       "category": "method",
-      "description": "Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Video thumbnails can be set only for video sticker sets only. Returns True on success.",
+      "description": "Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.",
+      "return": "any",
+      "properties": [
+         {
+            "name": "emoji_list",
+            "type": "string[]",
+            "optional": false,
+            "description": "A JSON-serialized list of 1-20 emoji associated with the sticker"
+         },
+         { "name": "sticker", "type": "string", "optional": false, "description": "File identifier of the sticker" }
+      ]
+   },
+   {
+      "name": "setStickerKeywords",
+      "category": "method",
+      "description": "Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.",
+      "return": "any",
+      "properties": [
+         { "name": "sticker", "type": "string", "optional": false, "description": "File identifier of the sticker" },
+         {
+            "name": "keywords",
+            "type": "string[]",
+            "optional": true,
+            "description": "A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters"
+         }
+      ]
+   },
+   {
+      "name": "setStickerMaskPosition",
+      "category": "method",
+      "description": "Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.",
+      "return": "any",
+      "properties": [
+         { "name": "sticker", "type": "string", "optional": false, "description": "File identifier of the sticker" },
+         {
+            "name": "mask_position",
+            "type": "MaskPosition",
+            "optional": true,
+            "description": "A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position."
+         }
+      ]
+   },
+   {
+      "name": "setStickerSetTitle",
+      "category": "method",
+      "description": "Use this method to set the title of a created sticker set. Returns True on success.",
+      "return": "any",
+      "properties": [
+         { "name": "title", "type": "string", "optional": false, "description": "Sticker set title, 1-64 characters" },
+         { "name": "name", "type": "string", "optional": false, "description": "Sticker set name" }
+      ]
+   },
+   {
+      "name": "setStickerSetThumbnail",
+      "category": "method",
+      "description": "Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.",
       "return": "any",
       "properties": [
          {
@@ -6180,12 +6337,34 @@
          },
          { "name": "name", "type": "string", "optional": false, "description": "Sticker set name" },
          {
-            "name": "thumb",
+            "name": "thumbnail",
             "type": "InputFile|string",
             "optional": true,
-            "description": "A PNG image with the thumbnail, must be up to 128 kilobytes in size and have width and height exactly 100px, or a TGS animation with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements, or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated sticker set thumbnails can't be uploaded via HTTP URL."
+            "description": "A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail."
          }
       ]
+   },
+   {
+      "name": "setCustomEmojiStickerSetThumbnail",
+      "category": "method",
+      "description": "Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.",
+      "return": "any",
+      "properties": [
+         { "name": "name", "type": "string", "optional": false, "description": "Sticker set name" },
+         {
+            "name": "custom_emoji_id",
+            "type": "string",
+            "optional": true,
+            "description": "Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail."
+         }
+      ]
+   },
+   {
+      "name": "deleteStickerSet",
+      "category": "method",
+      "description": "Use this method to delete a sticker set that was created by the bot. Returns True on success.",
+      "return": "any",
+      "properties": [{ "name": "name", "type": "string", "optional": false, "description": "Sticker set name" }]
    },
    {
       "name": "InlineQuery",
@@ -6314,13 +6493,13 @@
             "description": "Optional. Short description of the result"
          },
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": true,
             "description": "Optional. Url of the thumbnail for the result"
          },
-         { "name": "thumb_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
-         { "name": "thumb_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
+         { "name": "thumbnail_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
+         { "name": "thumbnail_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
       ]
    },
    {
@@ -6329,7 +6508,7 @@
       "description": "Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.",
       "properties": [
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": false,
             "description": "URL of the thumbnail for the photo"
@@ -6394,7 +6573,7 @@
       "description": "Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.",
       "properties": [
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": false,
             "description": "URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result"
@@ -6421,7 +6600,7 @@
             "description": "Optional. Duration of the GIF in seconds"
          },
          {
-            "name": "thumb_mime_type",
+            "name": "thumbnail_mime_type",
             "type": "string",
             "optional": true,
             "description": "Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”"
@@ -6465,7 +6644,7 @@
       "description": "Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.",
       "properties": [
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": false,
             "description": "URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result"
@@ -6497,7 +6676,7 @@
             "description": "Optional. Video duration in seconds"
          },
          {
-            "name": "thumb_mime_type",
+            "name": "thumbnail_mime_type",
             "type": "string",
             "optional": true,
             "description": "Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”"
@@ -6542,7 +6721,7 @@
       "properties": [
          { "name": "title", "type": "string", "optional": false, "description": "Title for the result" },
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": false,
             "description": "URL of the thumbnail (JPEG only) for the video"
@@ -6779,13 +6958,13 @@
             "description": "Optional. Content of the message to be sent instead of the file"
          },
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": true,
             "description": "Optional. URL of the thumbnail (JPEG only) for the file"
          },
-         { "name": "thumb_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
-         { "name": "thumb_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
+         { "name": "thumbnail_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
+         { "name": "thumbnail_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
       ]
    },
    {
@@ -6840,13 +7019,13 @@
             "description": "Optional. Content of the message to be sent instead of the location"
          },
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": true,
             "description": "Optional. Url of the thumbnail for the result"
          },
-         { "name": "thumb_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
-         { "name": "thumb_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
+         { "name": "thumbnail_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
+         { "name": "thumbnail_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
       ]
    },
    {
@@ -6912,13 +7091,13 @@
             "description": "Optional. Content of the message to be sent instead of the venue"
          },
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": true,
             "description": "Optional. Url of the thumbnail for the result"
          },
-         { "name": "thumb_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
-         { "name": "thumb_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
+         { "name": "thumbnail_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
+         { "name": "thumbnail_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
       ]
    },
    {
@@ -6955,13 +7134,13 @@
             "description": "Optional. Content of the message to be sent instead of the contact"
          },
          {
-            "name": "thumb_url",
+            "name": "thumbnail_url",
             "type": "string",
             "optional": true,
             "description": "Optional. Url of the thumbnail for the result"
          },
-         { "name": "thumb_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
-         { "name": "thumb_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
+         { "name": "thumbnail_width", "type": "number", "optional": true, "description": "Optional. Thumbnail width" },
+         { "name": "thumbnail_height", "type": "number", "optional": true, "description": "Optional. Thumbnail height" }
       ]
    },
    {

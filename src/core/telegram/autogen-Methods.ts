@@ -295,7 +295,7 @@ export abstract class Methods {
          /** Track name */
          title?: string
          /** Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-         thumb?: types.InputFile | string
+         thumbnail?: types.InputFile | string
          /** Sends the message silently. Users will receive a notification with no sound. */
          disable_notification?: boolean
          /** Protects the contents of the sent message from forwarding and saving */
@@ -332,7 +332,7 @@ export abstract class Methods {
          /** Unique identifier for the target message thread (topic) of the forum; for forum supergroups only */
          message_thread_id?: number
          /** Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-         thumb?: types.InputFile | string
+         thumbnail?: types.InputFile | string
          /** Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing */
          caption?: string
          /** Mode for parsing entities in the document caption. See formatting options for more details. */
@@ -383,7 +383,7 @@ export abstract class Methods {
          /** Video height */
          height?: number
          /** Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-         thumb?: types.InputFile | string
+         thumbnail?: types.InputFile | string
          /** Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing */
          caption?: string
          /** Mode for parsing entities in the video caption. See formatting options for more details. */
@@ -436,7 +436,7 @@ export abstract class Methods {
          /** Animation height */
          height?: number
          /** Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-         thumb?: types.InputFile | string
+         thumbnail?: types.InputFile | string
          /** Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing */
          caption?: string
          /** Mode for parsing entities in the animation caption. See formatting options for more details. */
@@ -528,7 +528,7 @@ export abstract class Methods {
          /** Video width and height, i.e. diameter of the video message */
          length?: number
          /** Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-         thumb?: types.InputFile | string
+         thumbnail?: types.InputFile | string
          /** Sends the message silently. Users will receive a notification with no sound. */
          disable_notification?: boolean
          /** Protects the contents of the sent message from forwarding and saving */
@@ -621,62 +621,6 @@ export abstract class Methods {
    ): Promise<any> {
       try {
          return await this.makeRequest('sendLocation', { longitude, latitude, chat_id }, extra)
-      } catch (e: any) {
-         throw e
-      }
-   }
-
-   /**
-    * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
-    */
-   async editMessageLiveLocation(
-      /** Longitude of new location */
-      longitude: number,
-      /** Latitude of new location */
-      latitude: number,
-      /** Extra options that could be provided */
-      extra?: {
-         /** Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername) */
-         chat_id?: number | string
-         /** Required if inline_message_id is not specified. Identifier of the message to edit */
-         message_id?: number
-         /** Required if chat_id and message_id are not specified. Identifier of the inline message */
-         inline_message_id?: string
-         /** The radius of uncertainty for the location, measured in meters; 0-1500 */
-         horizontal_accuracy?: number
-         /** Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified. */
-         heading?: number
-         /** The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified. */
-         proximity_alert_radius?: number
-         /** A JSON-serialized object for a new inline keyboard. */
-         reply_markup?: types.InlineKeyboardMarkup
-      },
-   ): Promise<any> {
-      try {
-         return await this.makeRequest('editMessageLiveLocation', { longitude, latitude }, extra)
-      } catch (e: any) {
-         throw e
-      }
-   }
-
-   /**
-    * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
-    */
-   async stopMessageLiveLocation(
-      /** Extra options that could be provided */
-      extra?: {
-         /** Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername) */
-         chat_id?: number | string
-         /** Required if inline_message_id is not specified. Identifier of the message with live location to stop */
-         message_id?: number
-         /** Required if chat_id and message_id are not specified. Identifier of the inline message */
-         inline_message_id?: string
-         /** A JSON-serialized object for a new inline keyboard. */
-         reply_markup?: types.InlineKeyboardMarkup
-      },
-   ): Promise<any> {
-      try {
-         return await this.makeRequest('stopMessageLiveLocation', extra)
       } catch (e: any) {
          throw e
       }
@@ -1716,6 +1660,78 @@ export abstract class Methods {
    }
 
    /**
+    * Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
+    */
+   async setMyDescription(
+      /** Extra options that could be provided */
+      extra?: {
+         /** New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language. */
+         description?: string
+         /** A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description. */
+         language_code?: string
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setMyDescription', extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to get the current bot description for the given user language. Returns BotDescription on success.
+    */
+   async getMyDescription(
+      /** Extra options that could be provided */
+      extra?: {
+         /** A two-letter ISO 639-1 language code or an empty string */
+         language_code?: string
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('getMyDescription', extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
+    */
+   async setMyShortDescription(
+      /** Extra options that could be provided */
+      extra?: {
+         /** New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language. */
+         short_description?: string
+         /** A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description. */
+         language_code?: string
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setMyShortDescription', extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
+    */
+   async getMyShortDescription(
+      /** Extra options that could be provided */
+      extra?: {
+         /** A two-letter ISO 639-1 language code or an empty string */
+         language_code?: string
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('getMyShortDescription', extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
     * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
     */
    async setChatMenuButton(
@@ -1752,7 +1768,7 @@ export abstract class Methods {
    }
 
    /**
-    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success.
+    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
     */
    async setMyDefaultAdministratorRights(
       /** Extra options that could be provided */
@@ -1873,6 +1889,62 @@ export abstract class Methods {
    }
 
    /**
+    * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+    */
+   async editMessageLiveLocation(
+      /** Longitude of new location */
+      longitude: number,
+      /** Latitude of new location */
+      latitude: number,
+      /** Extra options that could be provided */
+      extra?: {
+         /** Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername) */
+         chat_id?: number | string
+         /** Required if inline_message_id is not specified. Identifier of the message to edit */
+         message_id?: number
+         /** Required if chat_id and message_id are not specified. Identifier of the inline message */
+         inline_message_id?: string
+         /** The radius of uncertainty for the location, measured in meters; 0-1500 */
+         horizontal_accuracy?: number
+         /** Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified. */
+         heading?: number
+         /** The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified. */
+         proximity_alert_radius?: number
+         /** A JSON-serialized object for a new inline keyboard. */
+         reply_markup?: types.InlineKeyboardMarkup
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('editMessageLiveLocation', { longitude, latitude }, extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
+    */
+   async stopMessageLiveLocation(
+      /** Extra options that could be provided */
+      extra?: {
+         /** Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername) */
+         chat_id?: number | string
+         /** Required if inline_message_id is not specified. Identifier of the message with live location to stop */
+         message_id?: number
+         /** Required if chat_id and message_id are not specified. Identifier of the inline message */
+         inline_message_id?: string
+         /** A JSON-serialized object for a new inline keyboard. */
+         reply_markup?: types.InlineKeyboardMarkup
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('stopMessageLiveLocation', extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
     * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
     */
    async editMessageReplyMarkup(
@@ -1936,7 +2008,7 @@ export abstract class Methods {
     * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
     */
    async sendSticker(
-      /** Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files » */
+      /** Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP or .TGS sticker using multipart/form-data. More information on Sending Files ». Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL. */
       sticker: types.InputFile | string,
       /** Unique identifier for the target chat or username of the target channel (in the format @channelusername) */
       chat_id: number | string,
@@ -1944,6 +2016,8 @@ export abstract class Methods {
       extra?: {
          /** Unique identifier for the target message thread (topic) of the forum; for forum supergroups only */
          message_thread_id?: number
+         /** Emoji associated with the sticker; only for just uploaded stickers */
+         emoji?: string
          /** Sends the message silently. Users will receive a notification with no sound. */
          disable_notification?: boolean
          /** Protects the contents of the sent message from forwarding and saving */
@@ -1996,27 +2070,31 @@ export abstract class Methods {
    }
 
    /**
-    * Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
+    * Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
     */
    async uploadStickerFile(
-      /** PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More information on Sending Files » */
-      png_sticker: types.InputFile,
+      /** Format of the sticker, must be one of “static”, “animated”, “video” */
+      sticker_format: string,
+      /** A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files » */
+      sticker: types.InputFile,
       /** User identifier of sticker file owner */
       user_id: number,
    ): Promise<any> {
       try {
-         return await this.makeRequest('uploadStickerFile', { png_sticker, user_id })
+         return await this.makeRequest('uploadStickerFile', { sticker_format, sticker, user_id })
       } catch (e: any) {
          throw e
       }
    }
 
    /**
-    * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
+    * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
     */
    async createNewStickerSet(
-      /** One or more emoji corresponding to the sticker */
-      emojis: string,
+      /** Format of stickers in the set, must be one of “static”, “animated”, “video” */
+      sticker_format: string,
+      /** A JSON-serialized list of 1-50 initial stickers to be added to the sticker set */
+      stickers: types.InputSticker[],
       /** Sticker set title, 1-64 characters */
       title: string,
       /** Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only English letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in "_by_<bot_username>". <bot_username> is case insensitive. 1-64 characters. */
@@ -2025,49 +2103,32 @@ export abstract class Methods {
       user_id: number,
       /** Extra options that could be provided */
       extra?: {
-         /** PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files » */
-         png_sticker?: types.InputFile | string
-         /** TGS animation with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements */
-         tgs_sticker?: types.InputFile
-         /** WEBM video with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#video-sticker-requirements for technical requirements */
-         webm_sticker?: types.InputFile
-         /** Type of stickers in the set, pass “regular” or “mask”. Custom emoji sticker sets can't be created via the Bot API at the moment. By default, a regular sticker set is created. */
+         /** Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created. */
          sticker_type?: string
-         /** A JSON-serialized object for position where the mask should be placed on faces */
-         mask_position?: types.MaskPosition
+         /** Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only */
+         needs_repainting?: boolean
       },
    ): Promise<any> {
       try {
-         return await this.makeRequest('createNewStickerSet', { emojis, title, name, user_id }, extra)
+         return await this.makeRequest('createNewStickerSet', { sticker_format, stickers, title, name, user_id }, extra)
       } catch (e: any) {
          throw e
       }
    }
 
    /**
-    * Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
+    * Use this method to add a new sticker to a set created by the bot. The format of the added sticker must match the format of the other stickers in the set. Emoji sticker sets can have up to 200 stickers. Animated and video sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
     */
    async addStickerToSet(
-      /** One or more emoji corresponding to the sticker */
-      emojis: string,
+      /** A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed. */
+      sticker: types.InputSticker,
       /** Sticker set name */
       name: string,
       /** User identifier of sticker set owner */
       user_id: number,
-      /** Extra options that could be provided */
-      extra?: {
-         /** PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files » */
-         png_sticker?: types.InputFile | string
-         /** TGS animation with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#animated-sticker-requirements for technical requirements */
-         tgs_sticker?: types.InputFile
-         /** WEBM video with the sticker, uploaded using multipart/form-data. See https://core.telegram.org/stickers#video-sticker-requirements for technical requirements */
-         webm_sticker?: types.InputFile
-         /** A JSON-serialized object for position where the mask should be placed on faces */
-         mask_position?: types.MaskPosition
-      },
    ): Promise<any> {
       try {
-         return await this.makeRequest('addStickerToSet', { emojis, name, user_id }, extra)
+         return await this.makeRequest('addStickerToSet', { sticker, name, user_id })
       } catch (e: any) {
          throw e
       }
@@ -2104,21 +2165,124 @@ export abstract class Methods {
    }
 
    /**
-    * Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Video thumbnails can be set only for video sticker sets only. Returns True on success.
+    * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
     */
-   async setStickerSetThumb(
+   async setStickerEmojiList(
+      /** A JSON-serialized list of 1-20 emoji associated with the sticker */
+      emoji_list: string[],
+      /** File identifier of the sticker */
+      sticker: string,
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setStickerEmojiList', { emoji_list, sticker })
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
+    */
+   async setStickerKeywords(
+      /** File identifier of the sticker */
+      sticker: string,
+      /** Extra options that could be provided */
+      extra?: {
+         /** A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters */
+         keywords?: string[]
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setStickerKeywords', { sticker }, extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.
+    */
+   async setStickerMaskPosition(
+      /** File identifier of the sticker */
+      sticker: string,
+      /** Extra options that could be provided */
+      extra?: {
+         /** A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position. */
+         mask_position?: types.MaskPosition
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setStickerMaskPosition', { sticker }, extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to set the title of a created sticker set. Returns True on success.
+    */
+   async setStickerSetTitle(
+      /** Sticker set title, 1-64 characters */
+      title: string,
+      /** Sticker set name */
+      name: string,
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setStickerSetTitle', { title, name })
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
+    */
+   async setStickerSetThumbnail(
       /** User identifier of the sticker set owner */
       user_id: number,
       /** Sticker set name */
       name: string,
       /** Extra options that could be provided */
       extra?: {
-         /** A PNG image with the thumbnail, must be up to 128 kilobytes in size and have width and height exactly 100px, or a TGS animation with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements, or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated sticker set thumbnails can't be uploaded via HTTP URL. */
-         thumb?: types.InputFile | string
+         /** A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail. */
+         thumbnail?: types.InputFile | string
       },
    ): Promise<any> {
       try {
-         return await this.makeRequest('setStickerSetThumb', { user_id, name }, extra)
+         return await this.makeRequest('setStickerSetThumbnail', { user_id, name }, extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
+    */
+   async setCustomEmojiStickerSetThumbnail(
+      /** Sticker set name */
+      name: string,
+      /** Extra options that could be provided */
+      extra?: {
+         /** Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail. */
+         custom_emoji_id?: string
+      },
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('setCustomEmojiStickerSetThumbnail', { name }, extra)
+      } catch (e: any) {
+         throw e
+      }
+   }
+
+   /**
+    * Use this method to delete a sticker set that was created by the bot. Returns True on success.
+    */
+   async deleteStickerSet(
+      /** Sticker set name */
+      name: string,
+   ): Promise<any> {
+      try {
+         return await this.makeRequest('deleteStickerSet', { name })
       } catch (e: any) {
          throw e
       }

@@ -355,7 +355,7 @@ export interface Animation {
    /** Identifier for this file, which can be used to download or reuse the file */
    file_id: string
    /** Optional. Animation thumbnail as defined by sender */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
    /** Optional. Original animation filename as defined by sender */
    file_name?: string
    /** Optional. MIME type of the file as defined by sender */
@@ -385,7 +385,7 @@ export interface Audio {
    /** Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value. */
    file_size?: number
    /** Optional. Thumbnail of the album cover to which the music file belongs */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
 }
 
 /**
@@ -397,7 +397,7 @@ export interface Document {
    /** Identifier for this file, which can be used to download or reuse the file */
    file_id: string
    /** Optional. Document thumbnail as defined by sender */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
    /** Optional. Original filename as defined by sender */
    file_name?: string
    /** Optional. MIME type of the file as defined by sender */
@@ -421,7 +421,7 @@ export interface Video {
    /** Identifier for this file, which can be used to download or reuse the file */
    file_id: string
    /** Optional. Video thumbnail */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
    /** Optional. Original filename as defined by sender */
    file_name?: string
    /** Optional. MIME type of the file as defined by sender */
@@ -443,7 +443,7 @@ export interface VideoNote {
    /** Identifier for this file, which can be used to download or reuse the file */
    file_id: string
    /** Optional. Video thumbnail */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
    /** Optional. File size in bytes */
    file_size?: number
 }
@@ -782,7 +782,7 @@ export interface KeyboardButton {
  * This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed.
  */
 export interface KeyboardButtonRequestUser {
-   /** Signed 32-bit identifier of the request */
+   /** Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message */
    request_id: number
    /** Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied. */
    user_is_bot?: boolean
@@ -796,7 +796,7 @@ export interface KeyboardButtonRequestUser {
 export interface KeyboardButtonRequestChat {
    /** Pass True to request a channel chat, pass False to request a group or a supergroup chat. */
    chat_is_channel: boolean
-   /** Signed 32-bit identifier of the request */
+   /** Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message */
    request_id: number
    /** Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied. */
    chat_is_forum?: boolean
@@ -804,7 +804,7 @@ export interface KeyboardButtonRequestChat {
    chat_has_username?: boolean
    /** Optional. Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied. */
    chat_is_created?: boolean
-   /** Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. If not specified, no additional restrictions are applied. */
+   /** Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied. */
    user_administrator_rights?: ChatAdministratorRights
    /** Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied. */
    bot_administrator_rights?: ChatAdministratorRights
@@ -1281,6 +1281,22 @@ export interface BotCommandScopeChatMember {
 }
 
 /**
+ * This object represents the bot's description.
+ */
+export interface BotDescription {
+   /** The bot's description */
+   description: string
+}
+
+/**
+ * This object represents the bot's short description.
+ */
+export interface BotShortDescription {
+   /** The bot's short description */
+   short_description: string
+}
+
+/**
  * This object describes the bot's menu button in a private chat. It should be one ofIf a menu button other than MenuButtonDefault is set for a private chat, then it is applied in the chat. Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands.
  */
 export interface MenuButton {}
@@ -1355,7 +1371,7 @@ export interface InputMediaVideo {
    /** Type of the result, must be video */
    type: string
    /** Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-   thumb?: InputFile | string
+   thumbnail?: InputFile | string
    /** Optional. Caption of the video to be sent, 0-1024 characters after entities parsing */
    caption?: string
    /** Optional. Mode for parsing entities in the video caption. See formatting options for more details. */
@@ -1383,7 +1399,7 @@ export interface InputMediaAnimation {
    /** Type of the result, must be animation */
    type: string
    /** Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-   thumb?: InputFile | string
+   thumbnail?: InputFile | string
    /** Optional. Caption of the animation to be sent, 0-1024 characters after entities parsing */
    caption?: string
    /** Optional. Mode for parsing entities in the animation caption. See formatting options for more details. */
@@ -1409,7 +1425,7 @@ export interface InputMediaAudio {
    /** Type of the result, must be audio */
    type: string
    /** Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-   thumb?: InputFile | string
+   thumbnail?: InputFile | string
    /** Optional. Caption of the audio to be sent, 0-1024 characters after entities parsing */
    caption?: string
    /** Optional. Mode for parsing entities in the audio caption. See formatting options for more details. */
@@ -1433,7 +1449,7 @@ export interface InputMediaDocument {
    /** Type of the result, must be document */
    type: string
    /** Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files » */
-   thumb?: InputFile | string
+   thumbnail?: InputFile | string
    /** Optional. Caption of the document to be sent, 0-1024 characters after entities parsing */
    caption?: string
    /** Optional. Mode for parsing entities in the document caption. See formatting options for more details. */
@@ -1468,7 +1484,7 @@ export interface Sticker {
    /** Identifier for this file, which can be used to download or reuse the file */
    file_id: string
    /** Optional. Sticker thumbnail in the .WEBP or .JPG format */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
    /** Optional. Emoji associated with the sticker */
    emoji?: string
    /** Optional. Name of the sticker set to which the sticker belongs */
@@ -1479,6 +1495,8 @@ export interface Sticker {
    mask_position?: MaskPosition
    /** Optional. For custom emoji stickers, unique identifier of the custom emoji */
    custom_emoji_id?: string
+   /** Optional. True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places */
+   needs_repainting?: boolean
    /** Optional. File size in bytes */
    file_size?: number
 }
@@ -1500,7 +1518,7 @@ export interface StickerSet {
    /** Sticker set name */
    name: string
    /** Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format */
-   thumb?: PhotoSize
+   thumbnail?: PhotoSize
 }
 
 /**
@@ -1515,6 +1533,20 @@ export interface MaskPosition {
    x_shift: number
    /** The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”. */
    point: string
+}
+
+/**
+ * This object describes a sticker to be added to a sticker set.
+ */
+export interface InputSticker {
+   /** List of 1-20 emoji associated with the sticker */
+   emoji_list: string[]
+   /** The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files » */
+   sticker: InputFile | string
+   /** Optional. Position where the mask should be placed on faces. For “mask” stickers only. */
+   mask_position?: MaskPosition
+   /** Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only. */
+   keywords?: string[]
 }
 
 /**
@@ -1561,11 +1593,11 @@ export interface InlineQueryResultArticle {
    /** Optional. Short description of the result */
    description?: string
    /** Optional. Url of the thumbnail for the result */
-   thumb_url?: string
+   thumbnail_url?: string
    /** Optional. Thumbnail width */
-   thumb_width?: number
+   thumbnail_width?: number
    /** Optional. Thumbnail height */
-   thumb_height?: number
+   thumbnail_height?: number
 }
 
 /**
@@ -1573,7 +1605,7 @@ export interface InlineQueryResultArticle {
  */
 export interface InlineQueryResultPhoto {
    /** URL of the thumbnail for the photo */
-   thumb_url: string
+   thumbnail_url: string
    /** A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB */
    photo_url: string
    /** Unique identifier for this result, 1-64 bytes */
@@ -1605,7 +1637,7 @@ export interface InlineQueryResultPhoto {
  */
 export interface InlineQueryResultGif {
    /** URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result */
-   thumb_url: string
+   thumbnail_url: string
    /** A valid URL for the GIF file. File size must not exceed 1MB */
    gif_url: string
    /** Unique identifier for this result, 1-64 bytes */
@@ -1619,7 +1651,7 @@ export interface InlineQueryResultGif {
    /** Optional. Duration of the GIF in seconds */
    gif_duration?: number
    /** Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg” */
-   thumb_mime_type?: string
+   thumbnail_mime_type?: string
    /** Optional. Title for the result */
    title?: string
    /** Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing */
@@ -1639,7 +1671,7 @@ export interface InlineQueryResultGif {
  */
 export interface InlineQueryResultMpeg4Gif {
    /** URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result */
-   thumb_url: string
+   thumbnail_url: string
    /** A valid URL for the MPEG4 file. File size must not exceed 1MB */
    mpeg4_url: string
    /** Unique identifier for this result, 1-64 bytes */
@@ -1653,7 +1685,7 @@ export interface InlineQueryResultMpeg4Gif {
    /** Optional. Video duration in seconds */
    mpeg4_duration?: number
    /** Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg” */
-   thumb_mime_type?: string
+   thumbnail_mime_type?: string
    /** Optional. Title for the result */
    title?: string
    /** Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing */
@@ -1675,7 +1707,7 @@ export interface InlineQueryResultVideo {
    /** Title for the result */
    title: string
    /** URL of the thumbnail (JPEG only) for the video */
-   thumb_url: string
+   thumbnail_url: string
    /** MIME type of the content of the video URL, “text/html” or “video/mp4” */
    mime_type: string
    /** A valid URL for the embedded video player or video file */
@@ -1785,11 +1817,11 @@ export interface InlineQueryResultDocument {
    /** Optional. Content of the message to be sent instead of the file */
    input_message_content?: InputMessageContent
    /** Optional. URL of the thumbnail (JPEG only) for the file */
-   thumb_url?: string
+   thumbnail_url?: string
    /** Optional. Thumbnail width */
-   thumb_width?: number
+   thumbnail_width?: number
    /** Optional. Thumbnail height */
-   thumb_height?: number
+   thumbnail_height?: number
 }
 
 /**
@@ -1819,11 +1851,11 @@ export interface InlineQueryResultLocation {
    /** Optional. Content of the message to be sent instead of the location */
    input_message_content?: InputMessageContent
    /** Optional. Url of the thumbnail for the result */
-   thumb_url?: string
+   thumbnail_url?: string
    /** Optional. Thumbnail width */
-   thumb_width?: number
+   thumbnail_width?: number
    /** Optional. Thumbnail height */
-   thumb_height?: number
+   thumbnail_height?: number
 }
 
 /**
@@ -1855,11 +1887,11 @@ export interface InlineQueryResultVenue {
    /** Optional. Content of the message to be sent instead of the venue */
    input_message_content?: InputMessageContent
    /** Optional. Url of the thumbnail for the result */
-   thumb_url?: string
+   thumbnail_url?: string
    /** Optional. Thumbnail width */
-   thumb_width?: number
+   thumbnail_width?: number
    /** Optional. Thumbnail height */
-   thumb_height?: number
+   thumbnail_height?: number
 }
 
 /**
@@ -1883,11 +1915,11 @@ export interface InlineQueryResultContact {
    /** Optional. Content of the message to be sent instead of the contact */
    input_message_content?: InputMessageContent
    /** Optional. Url of the thumbnail for the result */
-   thumb_url?: string
+   thumbnail_url?: string
    /** Optional. Thumbnail width */
-   thumb_width?: number
+   thumbnail_width?: number
    /** Optional. Thumbnail height */
-   thumb_height?: number
+   thumbnail_height?: number
 }
 
 /**
