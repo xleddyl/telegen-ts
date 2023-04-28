@@ -675,9 +675,12 @@ export interface ChatShared {
 }
 
 /**
- * This object represents a service message about a user allowing a bot added to the attachment menu to write messages. Currently holds no information.
+ * This object represents a service message about a user allowing a bot to write messages after adding the bot to the attachment menu or launching a Web App from a link.
  */
-export interface WriteAccessAllowed {}
+export interface WriteAccessAllowed {
+   /** Optional. Name of the Web App which was launched from a link */
+   web_app_name?: string
+}
 
 /**
  * This object represents a service message about a video chat scheduled in the chat.
@@ -779,7 +782,7 @@ export interface KeyboardButton {
 }
 
 /**
- * This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed.
+ * This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed. More about requesting users »
  */
 export interface KeyboardButtonRequestUser {
    /** Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message */
@@ -791,7 +794,7 @@ export interface KeyboardButtonRequestUser {
 }
 
 /**
- * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be shared with the bot when the corresponding button is pressed.
+ * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be shared with the bot when the corresponding button is pressed. More about requesting chats »
  */
 export interface KeyboardButtonRequestChat {
    /** Pass True to request a channel chat, pass False to request a group or a supergroup chat. */
@@ -856,6 +859,8 @@ export interface InlineKeyboardButton {
    switch_inline_query?: string
    /** Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. */
    switch_inline_query_current_chat?: string
+   /** Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field */
+   switch_inline_query_chosen_chat?: SwitchInlineQueryChosenChat
    /** Optional. Description of the game that will be launched when the user presses the button.NOTE: This type of button must always be the first button in the first row. */
    callback_game?: CallbackGame
    /** Optional. Specify True, to send a Pay button.NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages. */
@@ -874,6 +879,22 @@ export interface LoginUrl {
    bot_username?: string
    /** Optional. Pass True to request the permission for your bot to send messages to the user. */
    request_write_access?: boolean
+}
+
+/**
+ * This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
+ */
+export interface SwitchInlineQueryChosenChat {
+   /** Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted */
+   query?: string
+   /** Optional. True, if private chats with users can be chosen */
+   allow_user_chats?: boolean
+   /** Optional. True, if private chats with bots can be chosen */
+   allow_bot_chats?: boolean
+   /** Optional. True, if group and supergroup chats can be chosen */
+   allow_group_chats?: boolean
+   /** Optional. True, if channel chats can be chosen */
+   allow_channel_chats?: boolean
 }
 
 /**
@@ -1123,6 +1144,8 @@ export interface ChatMemberUpdated {
    chat: Chat
    /** Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only. */
    invite_link?: ChatInviteLink
+   /** Optional. True, if the user joined the chat via a chat folder invite link */
+   via_chat_folder_invite_link?: boolean
 }
 
 /**
@@ -1278,6 +1301,14 @@ export interface BotCommandScopeChatMember {
    chat_id: number | string
    /** Scope type, must be chat_member */
    type: string
+}
+
+/**
+ * This object represents the bot's name.
+ */
+export interface BotName {
+   /** The bot's name */
+   name: string
 }
 
 /**
@@ -1541,7 +1572,7 @@ export interface MaskPosition {
 export interface InputSticker {
    /** List of 1-20 emoji associated with the sticker */
    emoji_list: string[]
-   /** The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files » */
+   /** The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, upload a new one using multipart/form-data, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More information on Sending Files » */
    sticker: InputFile | string
    /** Optional. Position where the mask should be placed on faces. For “mask” stickers only. */
    mask_position?: MaskPosition
@@ -1565,6 +1596,18 @@ export interface InlineQuery {
    chat_type?: string
    /** Optional. Sender location, only for bots that request user location */
    location?: Location
+}
+
+/**
+ * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
+ */
+export interface InlineQueryResultsButton {
+   /** Label text on the button */
+   text: string
+   /** Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to switch back to the inline mode using the method switchInlineQuery inside the Web App. */
+   web_app?: WebAppInfo
+   /** Optional. Deep-linking parameter for the /start message sent to the bot when a user presses the button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an OAuth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities. */
+   start_parameter?: string
 }
 
 /**
