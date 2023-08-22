@@ -110,6 +110,8 @@ export interface Chat {
    active_usernames?: string[]
    /** Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat. */
    emoji_status_custom_emoji_id?: string
+   /** Optional. Expiration date of the emoji status of the other party in a private chat, if any. Returned only in getChat. */
+   emoji_status_expiration_date?: number
    /** Optional. Bio of the other party in a private chat. Returned only in getChat. */
    bio?: string
    /** Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat. */
@@ -206,6 +208,8 @@ export interface Message {
    photo?: PhotoSize[]
    /** Optional. Message is a sticker, information about the sticker */
    sticker?: Sticker
+   /** Optional. Message is a forwarded story */
+   story?: Story
    /** Optional. Message is a video, information about the video */
    video?: Video
    /** Optional. Message is a video note, information about the video message */
@@ -407,6 +411,11 @@ export interface Document {
 }
 
 /**
+ * This object represents a message about a forwarded story in the chat. Currently holds no information.
+ */
+export interface Story {}
+
+/**
  * This object represents a video file.
  */
 export interface Video {
@@ -504,12 +513,14 @@ export interface PollOption {
  * This object represents an answer of a user in a non-anonymous poll.
  */
 export interface PollAnswer {
-   /** 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote. */
+   /** 0-based identifiers of chosen answer options. May be empty if the vote was retracted. */
    option_ids: number[]
-   /** The user, who changed the answer to the poll */
-   user: User
    /** Unique poll identifier */
    poll_id: string
+   /** Optional. The chat that changed the answer to the poll, if the voter is anonymous */
+   voter_chat?: Chat
+   /** Optional. The user that changed the answer to the poll, if the voter isn't anonymous */
+   user?: User
 }
 
 /**
@@ -855,7 +866,7 @@ export interface InlineKeyboardButton {
    web_app?: WebAppInfo
    /** Optional. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget. */
    login_url?: LoginUrl
-   /** Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted.Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switch_pm… actions - in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen. */
+   /** Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. */
    switch_inline_query?: string
    /** Optional. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. */
    switch_inline_query_current_chat?: string
