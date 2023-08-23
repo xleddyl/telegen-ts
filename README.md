@@ -2,7 +2,7 @@
 
 A simple and effective library that solely provides an implementation of the official [Telegram Bot API](https://core.telegram.org/bots/api).
 
-- Current wrapper version: [**Bot API 6.8**](https://core.telegram.org/bots/api#august-18-2023) (_august-18-2023_)
+- Current version: [**Bot API 6.8**](https://core.telegram.org/bots/api#august-18-2023) (_august-18-2023_)
 
 ## 📚 Docs
 
