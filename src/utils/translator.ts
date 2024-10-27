@@ -148,8 +148,8 @@ class TelegramApiParser {
       return parsed
    }
 
-   private generateMethodsFile(methods: ApiItem[]): string {
-      let output = `import * as types from './autogen-types';\n\n`
+   private generateMethodsFile(methods: ApiItem[], types: ApiItem[]): string {
+      let output = `import {${types.map((t) => t.name).join(',')}} from './autogen-types';\n\n`
       output += `export abstract class Methods {\n`
       output += `    abstract makeRequest(methodName: string, body?: any, extra?: any): Promise<any>;\n\n`
 
@@ -233,7 +233,7 @@ class TelegramApiParser {
 
          console.log('Generating TypeScript files...')
 
-         const methodsContent = this.generateMethodsFile(methods)
+         const methodsContent = this.generateMethodsFile(methods, types)
          const typesContent = this.generateTypesFile(types)
 
          await Promise.all([
