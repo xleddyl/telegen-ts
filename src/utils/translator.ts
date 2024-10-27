@@ -115,7 +115,6 @@ class TelegramApiParser {
       elements.forEach((element) => {
          if (element.textContent?.startsWith('Bot API')) {
             version = Number(this.parseApiVersion(element))
-            console.log(`Processing Bot API version ${version}`)
          }
 
          if (!startParsing && element.textContent === 'Update') {
