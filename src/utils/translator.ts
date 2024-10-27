@@ -222,16 +222,12 @@ class TelegramApiParser {
       try {
          await this.ensureDirectory()
 
-         console.log('Fetching API documentation...')
          const document = await this.fetchApiDoc()
 
-         console.log('Parsing API documentation...')
          const api = this.decodeDocument(document)
 
          const methods = api.filter((item) => item.category === 'method')
          const types = api.filter((item) => item.category === 'type')
-
-         console.log('Generating TypeScript files...')
 
          const methodsContent = this.generateMethodsFile(methods, types)
          const typesContent = this.generateTypesFile(types)
@@ -240,10 +236,7 @@ class TelegramApiParser {
             fs.writeFile(path.join(this.OUTPUT_DIR, 'autogen-methods.ts'), methodsContent),
             fs.writeFile(path.join(this.OUTPUT_DIR, 'autogen-types.ts'), typesContent),
          ])
-
-         console.log('Generation completed successfully!')
       } catch (error) {
-         console.error('Error generating API files:', error)
          throw error
       }
    }
@@ -255,7 +248,6 @@ class TelegramApiParser {
    try {
       await parser.generate()
    } catch (error) {
-      console.error('Failed to generate API files:', error)
       process.exit(1)
    }
 })()
