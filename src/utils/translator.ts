@@ -91,7 +91,7 @@ class TelegramApiParser {
 
       return {
          version: versionMatch[1],
-         date: date,
+         date,
       }
    }
 
@@ -169,7 +169,7 @@ class TelegramApiParser {
                name,
                category: name[0] === name[0].toUpperCase() ? 'type' : 'method',
                description: '',
-               return: name[0] === name[0].toUpperCase() ? undefined : 'Promise<any>',
+               return: name[0] === name[0].toUpperCase() ? undefined : 'Promise<T>',
             }
 
             parsed.push(currentItem)
@@ -189,7 +189,7 @@ class TelegramApiParser {
    private generateMethodsFile(methods: ApiItem[], types: ApiItem[]): string {
       let output = `import {${types.map((t) => t.name).join(',')}} from './autogen-types';\n\n`
       output += `export abstract class Methods {\n`
-      output += `    abstract makeRequest(methodName: string, body?: any, extra?: any): Promise<any>;\n\n`
+      output += `    abstract makeRequest<T>(methodName: string, body?: any, extra?: any): Promise<T>;\n\n`
 
       methods
          .sort((m1, m2) => (m1.version > m2.version ? 1 : -1))
@@ -199,7 +199,7 @@ class TelegramApiParser {
             const optional = params.filter((p) => p.optional)
 
             output += `    /**\n     * ${method.description}\n     */\n`
-            output += `    async ${method.name}(\n`
+            output += `    async ${method.name}<T>(\n`
 
             if (required.length > 0) {
                output += `        body: {\n`
@@ -221,9 +221,9 @@ class TelegramApiParser {
                output += `        }\n`
             }
 
-            output += `    ): ${method.return} {\n`
+            output += `    ) {\n`
             output += `        try {\n`
-            output += `            return await this.makeRequest('${method.name}'${required.length ? ', body' : ''}${
+            output += `            return await this.makeRequest<T>('${method.name}'${required.length ? ', body' : ''}${
                optional.length ? ', extra' : ''
             });\n`
             output += `        } catch (error: any) {\n`
@@ -288,7 +288,6 @@ class TelegramApiParser {
    try {
       await parser.generate()
    } catch (error) {
-      console.error(error)
       process.exit(1)
    }
 })()
