@@ -92,8 +92,8 @@ class TelegramApiParser {
          transformedRows.push({
             name: cells[0],
             type: this.normalizeType(cells[1]),
-            optional: (cells[2] || cells[3] || '').startsWith('Optional'),
-            description: cells[2] || cells[3] || '',
+            optional: (cells[3] || cells[2] || '').startsWith('Optional'),
+            description: cells[3] || cells[2] || '',
          })
       })
 
