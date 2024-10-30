@@ -19,6 +19,11 @@ type Property = {
    description: string
 }
 
+type VersionInfo = {
+   version: string
+   date: string
+}
+
 const TYPE_MAPPINGS = new Map([
    ['Float number', 'number'],
    ['Integer', 'number'],
@@ -71,6 +76,40 @@ class TelegramApiParser {
          throw new Error(
             `Failed to fetch API documentation: ${error instanceof Error ? error.message : 'Unknown error'}`,
          )
+      }
+   }
+
+   private parseVersionInfo(document: Document): VersionInfo {
+      const versionHeader = document.querySelector('h4')
+      if (!versionHeader) throw new Error('Could not find version header')
+
+      const date = versionHeader.textContent?.trim() || ''
+      const versionParagraph = versionHeader.nextElementSibling
+      const versionMatch = versionParagraph?.textContent?.match(/Bot API (\d+\.\d+)/)
+
+      if (!versionMatch) throw new Error('Could not parse Bot API version')
+
+      return {
+         version: versionMatch[1],
+         date: date,
+      }
+   }
+
+   private async updateReadme(versionInfo: VersionInfo): Promise<void> {
+      const readmePath = path.join(this.OUTPUT_DIR, '../../../README.md')
+
+      try {
+         const readmeContent = await fs.readFile(readmePath, 'utf-8')
+
+         // Update the current version line
+         const updatedContent = readmeContent.replace(
+            /Current version: \[\*\*Bot API [0-9.]+\*\*\].*\(.*\) \(_.*_\)/,
+            `Current version: [**Bot API ${versionInfo.version}**](https://core.telegram.org/bots/api#${versionInfo.date.toLowerCase().replace(/,?\s+/g, '-')}) (_${versionInfo.date}_)`,
+         )
+
+         await fs.writeFile(readmePath, updatedContent)
+      } catch (error) {
+         throw new Error(`Failed to update README: ${error instanceof Error ? error.message : 'Unknown error'}`)
       }
    }
 
@@ -222,6 +261,8 @@ class TelegramApiParser {
          await this.ensureDirectory()
 
          const document = await this.fetchApiDoc()
+         const versionInfo = this.parseVersionInfo(document)
+         await this.updateReadme(versionInfo)
 
          const api = this.decodeDocument(document)
 
@@ -247,6 +288,7 @@ class TelegramApiParser {
    try {
       await parser.generate()
    } catch (error) {
+      console.error(error)
       process.exit(1)
    }
 })()
