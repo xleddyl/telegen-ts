@@ -25,7 +25,10 @@
       "preversion": "npm run lint",
       "version": "npm run format && git add -A src",
       "postversion": "git push && git push --tags",
-      "release": "npm run regenerate && npm publish"
+      "release": "npm run regenerate && npm publish --access public",
+      "release:minor": "npm run regenerate && npm version minor && npm publish --access public",
+      "release:major": "npm run regenerate && npm version major && npm publish --access public",
+      "release:patch": "npm run regenerate && npm version patch && npm publish --access public"
    },
    "repository": {
       "type": "git",
