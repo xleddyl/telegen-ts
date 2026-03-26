@@ -305,12 +305,14 @@ export class TelegramApiParser {
 }
 
 // Usage
-/* eslint-disable no-extra-semi */
-;(async () => {
-   const parser = new TelegramApiParser(path.join(__dirname, '../core/telegram'))
-   try {
-      await parser.generate()
-   } catch (error) {
-      process.exit(1)
-   }
-})()
+if (require.main === module) {
+   /* eslint-disable no-extra-semi */
+   ;(async () => {
+      const parser = new TelegramApiParser(path.join(__dirname, '../core/telegram'))
+      try {
+         await parser.generate()
+      } catch (error) {
+         process.exit(1)
+      }
+   })()
+}
