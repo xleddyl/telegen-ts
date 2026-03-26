@@ -305,6 +305,7 @@ export class TelegramApiParser {
 }
 
 // Usage
+/* eslint-disable no-extra-semi */
 ;(async () => {
    const parser = new TelegramApiParser(path.join(__dirname, '../core/telegram'))
    try {
