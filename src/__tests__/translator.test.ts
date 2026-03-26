@@ -61,9 +61,7 @@ describe('normalizeType', () => {
    })
 
    test('handles complex union with multiple types', () => {
-      const result = normalizeType(
-         'InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply',
-      )
+      const result = normalizeType('InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply')
       expect(result).toBe('InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply')
    })
 })

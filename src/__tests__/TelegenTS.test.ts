@@ -74,9 +74,7 @@ describe('TelegenTS.makeRequest', () => {
       })
 
       await bot.makeRequest('getMe')
-      expect(mockRequest).toHaveBeenCalledWith(
-         expect.objectContaining({ method: 'get', url: '/getMe' }),
-      )
+      expect(mockRequest).toHaveBeenCalledWith(expect.objectContaining({ method: 'get', url: '/getMe' }))
    })
 
    test('uses POST when body provided', async () => {
@@ -85,9 +83,7 @@ describe('TelegenTS.makeRequest', () => {
       })
 
       await bot.makeRequest('sendMessage', { chat_id: 123, text: 'hello' })
-      expect(mockRequest).toHaveBeenCalledWith(
-         expect.objectContaining({ method: 'post', url: '/sendMessage' }),
-      )
+      expect(mockRequest).toHaveBeenCalledWith(expect.objectContaining({ method: 'post', url: '/sendMessage' }))
    })
 
    test('throws on ok: false response', async () => {
