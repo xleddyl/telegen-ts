@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 
 type ApiItem = {
-   version: number
+   version: string
    name: string
    category: 'type' | 'method'
    description: string
@@ -34,7 +34,7 @@ const TYPE_MAPPINGS = new Map([
    ['True', 'boolean'],
 ])
 
-class TelegramApiParser {
+export class TelegramApiParser {
    private readonly API_URL = 'https://core.telegram.org/bots/api'
    private readonly OUTPUT_DIR: string
 
@@ -50,16 +50,23 @@ class TelegramApiParser {
          type = type.replace(new RegExp(`\\b${from}\\b`, 'g'), to)
       }
 
-      // Handle arrays and unions
-      type = type.replace(/\s+or\s+|\s+and\s+|,\s+/g, '|').replace(/Array of (.*?)(?=(\||$))/g, (_, p1) => {
-         if (p1.includes('|')) {
-            return p1
-               .split('|')
-               .map((t: any) => t.trim() + '[]')
-               .join('|')
-         }
-         return p1.trim() + '[]'
-      })
+      // Handle unions
+      type = type.replace(/\s+or\s+|\s+and\s+|,\s+/g, '|')
+
+      // Handle arrays iteratively for nested arrays (e.g., "Array of Array of X" → "X[][]")
+      let prev = ''
+      while (prev !== type) {
+         prev = type
+         type = type.replace(/Array of (.*?)(?=(\||$))/g, (_, p1) => {
+            if (p1.includes('|')) {
+               return p1
+                  .split('|')
+                  .map((t: string) => t.trim() + '[]')
+                  .join('|')
+            }
+            return p1.trim() + '[]'
+         })
+      }
 
       return type
    }
@@ -145,15 +152,17 @@ class TelegramApiParser {
       const content = document.querySelector('div#dev_page_content')
       if (!content) throw new Error('Could not find API content')
 
-      const elements = Array.from(content.querySelectorAll(':scope > h4, :scope > p, :scope > table'))
+      const elements = Array.from(
+         content.querySelectorAll(':scope > h3, :scope > h4, :scope > p, :scope > table, :scope > hr'),
+      )
       const parsed: ApiItem[] = []
       let currentItem: ApiItem | null = null
       let startParsing = false
-      let version = 0
+      let version = '0.0'
 
       elements.forEach((element) => {
          if (element.textContent?.startsWith('Bot API')) {
-            version = Number(this.parseApiVersion(element))
+            version = this.parseApiVersion(element)
          }
 
          if (!startParsing && element.textContent === 'Update') {
@@ -162,18 +171,29 @@ class TelegramApiParser {
 
          if (!startParsing) return
 
-         if (element.nodeName === 'H4' && !element.textContent?.includes(' ')) {
-            const name = element.textContent || ''
-            currentItem = {
-               version,
-               name,
-               category: name[0] === name[0].toUpperCase() ? 'type' : 'method',
-               description: '',
-               return: name[0] === name[0].toUpperCase() ? undefined : 'Promise<T>',
-            }
+         if (element.nodeName === 'H3' || element.nodeName === 'HR') {
+            currentItem = null
+            return
+         }
 
-            parsed.push(currentItem)
-         } else if (element.nodeName === 'P' && currentItem) {
+         if (element.nodeName === 'H4') {
+            if (!element.textContent?.includes(' ')) {
+               const name = element.textContent || ''
+               currentItem = {
+                  version,
+                  name,
+                  category: name[0] === name[0].toUpperCase() ? 'type' : 'method',
+                  description: '',
+                  return: name[0] === name[0].toUpperCase() ? undefined : 'Promise<T>',
+               }
+               parsed.push(currentItem)
+            } else {
+               currentItem = null
+            }
+            return
+         }
+
+         if (element.nodeName === 'P' && currentItem) {
             currentItem.description += element.textContent || ''
          } else if (element.nodeName === 'TABLE' && currentItem) {
             const properties = this.parseProperties(element)
@@ -192,7 +212,11 @@ class TelegramApiParser {
       output += `    abstract makeRequest<T>(methodName: string, body?: any, extra?: any): Promise<T>;\n\n`
 
       methods
-         .sort((m1, m2) => (m1.version > m2.version ? 1 : -1))
+         .sort((a, b) => {
+            const [aMaj, aMin] = a.version.split('.').map(Number)
+            const [bMaj, bMin] = b.version.split('.').map(Number)
+            return aMaj - bMaj || aMin - bMin
+         })
          .forEach((method) => {
             const params = method.properties || []
             const required = params.filter((p) => !p.optional)
@@ -222,13 +246,10 @@ class TelegramApiParser {
             }
 
             output += `    ) {\n`
-            output += `        try {\n`
-            output += `            return await this.makeRequest<T>('${method.name}'${required.length ? ', body' : ''}${
+            output += `        return await this.makeRequest<T>('${method.name}'${required.length ? ', body' : ''}${
                optional.length ? ', extra' : ''
             });\n`
-            output += `        } catch (error: any) {\n`
-            output += `            throw error;\n`
-            output += `        }\n    }\n\n`
+            output += `    }\n\n`
          })
 
       output += `}\n`
@@ -238,7 +259,11 @@ class TelegramApiParser {
    private generateTypesFile(types: ApiItem[]): string {
       let output = ''
       types
-         .sort((m1, m2) => (m1.version > m2.version ? 1 : -1))
+         .sort((a, b) => {
+            const [aMaj, aMin] = a.version.split('.').map(Number)
+            const [bMaj, bMin] = b.version.split('.').map(Number)
+            return aMaj - bMaj || aMin - bMin
+         })
          .forEach((type) => {
             output += `/**\n * ${type.description}\n */\n`
             output += `export interface ${type.name} {\n`
@@ -257,28 +282,25 @@ class TelegramApiParser {
    }
 
    public async generate(): Promise<void> {
-      try {
-         await this.ensureDirectory()
+      await this.ensureDirectory()
 
-         const document = await this.fetchApiDoc()
-         const versionInfo = this.parseVersionInfo(document)
-         await this.updateReadme(versionInfo)
+      const document = await this.fetchApiDoc()
+      const versionInfo = this.parseVersionInfo(document)
+      await this.updateReadme(versionInfo)
 
-         const api = this.decodeDocument(document)
+      const api = this.decodeDocument(document)
 
-         const methods = api.filter((item) => item.category === 'method')
-         const types = api.filter((item) => item.category === 'type')
+      const methods = api.filter((item) => item.category === 'method')
+      const types = api.filter((item) => item.category === 'type')
 
-         const methodsContent = this.generateMethodsFile(methods, types)
-         const typesContent = this.generateTypesFile(types)
+      const methodsContent = this.generateMethodsFile(methods, types)
+      const typesContent = this.generateTypesFile(types)
 
-         await Promise.all([
-            fs.writeFile(path.join(this.OUTPUT_DIR, 'autogen-methods.ts'), methodsContent),
-            fs.writeFile(path.join(this.OUTPUT_DIR, 'autogen-types.ts'), typesContent),
-         ])
-      } catch (error) {
-         throw error
-      }
+      await Promise.all([
+         fs.writeFile(path.join(this.OUTPUT_DIR, 'autogen-methods.ts'), methodsContent),
+         fs.writeFile(path.join(this.OUTPUT_DIR, 'autogen-types.ts'), typesContent),
+         fs.writeFile(path.join(this.OUTPUT_DIR, `Bot_API_${versionInfo.version}.json`), JSON.stringify(api, null, 3)),
+      ])
    }
 }
 

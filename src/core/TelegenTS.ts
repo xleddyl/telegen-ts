@@ -36,7 +36,7 @@ export class TelegenTS extends Methods {
    }
 
    private validateToken(token: string): void {
-      if (!token || typeof token !== 'string' || !/^\d+:[A-Za-z0-9_-]{35}$/.test(token)) {
+      if (!token || typeof token !== 'string' || !/^\d+:[A-Za-z0-9_-]{35,}$/.test(token)) {
          throw new Error('Invalid bot token format. Expected format: "123456789:ABCdefGHIjklMNOpqrsTUVwxyz"')
       }
    }
